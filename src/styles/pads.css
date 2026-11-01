@@ -1,0 +1,180 @@
+/* 16-Pad Drum Machine Grid Layout */
+.pad-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 480px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+/* Individual Drum Pad (Semantic <button>) */
+.drum-pad {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: inherit;
+  color: inherit;
+  text-align: left;
+  border: 1.5px solid #1f2e46;
+  border-radius: 14px;
+  position: relative;
+  background: linear-gradient(145deg, #182334, #0c121d);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.75rem 0.65rem;
+  box-shadow: 
+    0 8px 18px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 0.04s ease-out, box-shadow 0.04s ease-out, border-color 0.04s ease-out, background 0.04s ease-out;
+  touch-action: manipulation;
+  overflow: hidden;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Hover state on pointer devices */
+@media (hover: hover) {
+  .drum-pad:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 
+      0 12px 22px rgba(0, 0, 0, 0.55),
+      0 0 15px rgba(59, 130, 246, 0.2);
+  }
+}
+
+/* Active / Pressed Tactile State */
+.drum-pad.active,
+.drum-pad:active {
+  transform: translateY(3px) scale(0.97);
+  background: linear-gradient(145deg, #080d16, #18263c);
+  border-color: var(--pad-color, #38bdf8);
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.8),
+    0 0 25px var(--pad-color, rgba(56, 189, 248, 0.7)),
+    inset 0 0 15px var(--pad-color, rgba(56, 189, 248, 0.45));
+}
+
+/* Accessible Focus Visible Indicator */
+.drum-pad:focus-visible {
+  outline: 2px solid var(--pad-color, #38bdf8);
+  outline-offset: 3px;
+  border-color: var(--pad-color, #38bdf8);
+}
+
+/* Drag-over State for Custom Sample Loading */
+.drum-pad.drag-over {
+  border: 2px dashed #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.5) !important;
+  transform: scale(1.02);
+}
+
+/* Neon Corner Indicator LED */
+.pad-led {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pad-color, #38bdf8);
+  opacity: 0.35;
+  transition: opacity 0.05s ease, box-shadow 0.05s ease;
+  pointer-events: none;
+}
+
+.drum-pad.active .pad-led {
+  opacity: 1;
+  box-shadow: 0 0 10px var(--pad-color, #38bdf8);
+}
+
+/* Key Label (Top Left) */
+.pad-key {
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: var(--pad-color, #38bdf8);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  padding: 0.12rem 0.4rem;
+  align-self: flex-start;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  line-height: 1;
+}
+
+/* Sound Name (Bottom Center) */
+.pad-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  pointer-events: none;
+  min-width: 0;
+  width: 100%;
+}
+
+.pad-number {
+  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.pad-label {
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: block;
+}
+
+/* Mobile & Small Screens Optimization */
+@media (max-width: 640px) {
+  .pad-grid-container {
+    gap: 0.45rem;
+    aspect-ratio: auto;
+    max-height: none;
+  }
+  .drum-pad {
+    aspect-ratio: 1 / 1;
+    border-radius: 9px;
+    padding: 0.4rem 0.3rem;
+    min-height: 0;
+  }
+  .pad-label {
+    font-size: 0.62rem;
+  }
+  .pad-key {
+    padding: 0.08rem 0.28rem;
+    font-size: 0.65rem;
+  }
+  .pad-number {
+    font-size: 0.5rem;
+  }
+  .pad-led {
+    width: 5px;
+    height: 5px;
+    top: 6px;
+    right: 6px;
+  }
+}
+
+/* High Contrast Mode */
+@media (forced-colors: active) {
+  .drum-pad {
+    border: 2px solid ButtonBorder;
+  }
+  .drum-pad:focus-visible {
+    outline: 3px solid Highlight;
+  }
+}

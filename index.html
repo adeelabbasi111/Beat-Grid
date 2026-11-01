@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BeatGrid — High-performance 16-pad web audio sampler and drum machine built with native Web Audio API." />
+  <meta name="theme-color" content="#0a0d14" />
+  <title>BeatGrid — Interactive Web Audio Sampler & Looper (FED-02)</title>
+  <link rel="stylesheet" href="./src/styles/main.css" />
+  <link rel="stylesheet" href="./src/styles/pads.css" />
+</head>
+<body>
+  <!-- Accessible Live Region for Screen Readers -->
+  <div id="a11y-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="6" height="6" rx="1.5"></rect>
+            <rect x="14" y="4" width="6" height="6" rx="1.5"></rect>
+            <rect x="4" y="14" width="6" height="6" rx="1.5"></rect>
+            <rect x="14" y="14" width="6" height="6" rx="1.5"></rect>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">BeatGrid</h1>
+          <span class="brand-badge">FED-02 • Web Audio API</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="audio-status" type="button" class="status-pill suspended" title="Click to initialize / resume Web AudioContext" aria-label="Audio status: Standby. Click to activate.">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Audio: Standby (Click)</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hardware Dashboard & VU Meter -->
+    <section class="dashboard-display" aria-label="Audio telemetry and status dashboard">
+      <div class="stat-item">
+        <span class="stat-label">Active Sound Bank</span>
+        <span id="stat-bank" class="stat-value">808 Trap Kit</span>
+      </div>
+
+      <div class="stat-item">
+        <span class="stat-label">Last Hit & Latency</span>
+        <div class="stat-latency-group">
+          <span id="stat-last-hit" class="stat-value">Ready [Press Key]</span>
+          <span id="stat-latency" class="stat-pill-badge">0.00 ms</span>
+        </div>
+      </div>
+
+      <div class="stat-item">
+        <div class="meter-header">
+          <span class="stat-label">Master VU Output</span>
+          <span class="meter-db">0 dB</span>
+        </div>
+        <div class="vu-meter" role="meter" aria-label="Master audio output level" aria-valuemin="0" aria-valuemax="100">
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+          <div class="vu-bar"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hardware Controls Bar (Kit Select, BPM Slider, Master Volume) -->
+    <section class="controls-bar" aria-label="Audio controls">
+      <div class="control-group">
+        <label for="bank-select" class="control-label">Kit Preset:</label>
+        <select id="bank-select" class="select-input" aria-label="Select drum sound bank"></select>
+      </div>
+
+      <div class="control-group">
+        <div class="tempo-label-wrap">
+          <span id="tempo-indicator" class="tempo-dot" aria-hidden="true"></span>
+          <label for="tempo-slider" class="control-label">Tempo:</label>
+        </div>
+        <input id="tempo-slider" type="range" min="60" max="180" step="1" value="120" class="slider-input" aria-label="Tempo slider in beats per minute" />
+        <span id="tempo-val" class="control-val">120 BPM</span>
+      </div>
+
+      <div class="control-group">
+        <label for="volume-slider" class="control-label">Master Vol:</label>
+        <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.85" class="slider-input" aria-label="Master volume slider" />
+        <span id="volume-val" class="control-val">85%</span>
+      </div>
+    </section>
+
+    <!-- 16-Pad Drum Machine Surface -->
+    <main class="pad-surface" aria-label="BeatGrid drum machine workspace">
+      <div id="pad-grid"></div>
+    </main>
+
+    <!-- Keyboard & Touch Instructions Footer -->
+    <footer class="instructions-bar">
+      <div class="shortcut-tags">
+        <span class="shortcut-tag"><b>1-4</b> Top</span>
+        <span class="shortcut-tag"><b>Q-R</b> Mid-High</span>
+        <span class="shortcut-tag"><b>A-F</b> Mid-Low</span>
+        <span class="shortcut-tag"><b>Z-V</b> Bass/Perc</span>
+      </div>
+      <span class="tech-note">Tip: Drag & drop any .WAV / .MP3 sample directly onto a pad!</span>
+    </footer>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
