@@ -138,7 +138,7 @@ In adherence to modern web standards and accessibility guidelines:
 ### Installation
 1. Clone or open the project directory:
    ```bash
-   cd "C:\Users\adeel\OneDrive\Desktop\Business\Internship"
+   cd "git clone https://github.com/adeelabbasi111/Beat-Grid"
    ```
 2. Install dependencies:
    ```bash
