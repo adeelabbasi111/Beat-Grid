@@ -112,6 +112,62 @@ class AudioEngine {
   }
 
   /**
+   * Schedules an AudioBuffer at an exact future hardware timestamp (Web Audio clock).
+   * Core primitive for sample-accurate lookahead loop scheduling.
+   * @param {AudioBuffer} buffer
+   * @param {number} when Exact AudioContext.currentTime timestamp
+   * @param {object} options
+   * @param {number} [options.volume=1.0]
+   * @param {number} [options.playbackRate=1.0]
+   * @returns {{ source: AudioBufferSourceNode, gainNode: GainNode }|null}
+   */
+  scheduleBuffer(buffer, when, { volume = 1.0, playbackRate = 1.0 } = {}) {
+    if (!buffer) return null;
+    if (!this.isInitialized) {
+      this.init();
+    }
+
+    const source = this.ctx.createBufferSource();
+    source.buffer = buffer;
+    source.playbackRate.setValueAtTime(playbackRate, when);
+
+    const voiceGain = this.ctx.createGain();
+    voiceGain.gain.setValueAtTime(Math.max(0, Math.min(1, volume)), when);
+
+    source.connect(voiceGain);
+    voiceGain.connect(this.masterGain);
+
+    source.start(when);
+    return { source, gainNode: voiceGain };
+  }
+
+  /**
+   * Generates a precise synthesized acoustic metronome click at future timestamp 'when'.
+   * @param {number} when
+   * @param {boolean} isDownbeat Higher pitch for beat 1
+   */
+  playMetronomeClick(when, isDownbeat = false) {
+    if (!this.isInitialized) {
+      this.init();
+    }
+
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(isDownbeat ? 1200 : 800, when);
+
+    gain.gain.setValueAtTime(0.35, when);
+    gain.gain.exponentialRampToValueAtTime(0.001, when + 0.04);
+
+    osc.connect(gain);
+    gain.connect(this.masterGain);
+
+    osc.start(when);
+    osc.stop(when + 0.045);
+  }
+
+  /**
    * Sets master output volume.
    * @param {number} value Level between 0.0 and 1.0
    */

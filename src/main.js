@@ -5,13 +5,16 @@
 
 import { audioEngine } from './audio/AudioEngine.js';
 import { bufferLoader } from './audio/BufferLoader.js';
+import { sequencerEngine } from './audio/SequencerEngine.js';
 import { PadGrid } from './ui/PadGrid.js';
 import { Controls } from './ui/Controls.js';
+import { SequencerUI } from './ui/SequencerUI.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('[BeatGrid] Initializing Web Audio Sampler & Looper (FED-02)...');
 
   const gridContainer = document.getElementById('pad-grid');
+  const sequencerContainer = document.getElementById('sequencer-container');
 
   // Initialize Hardware Controls & VU Display
   const controls = new Controls({
@@ -22,9 +25,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           console.log(`[BeatGrid] Bank '${bankId}' cached successfully!`);
         }
       });
+      // Synchronize sequencer groove preset with kit if available
+      sequencerEngine.loadFactoryPreset(bankId);
     },
     onTempoChange: (bpm) => {
       console.log(`[BeatGrid] Tempo updated: ${bpm} BPM`);
+      sequencerEngine.setBpm(bpm);
     }
   });
 
@@ -39,9 +45,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
+  // Initialize Module 2: 16-Step Looper & Sequencer Console
+  const sequencerUI = new SequencerUI(sequencerContainer, {
+    onStatusMessage: (message) => {
+      controls.announceStatus(message);
+      console.log(`[BeatGrid] ${message}`);
+    }
+  });
+
   // Pre-load default 808 Trap kit buffers
   console.log('[BeatGrid] Pre-caching default soundbank buffers...');
-  await bufferLoader.loadBank('808-trap', ({ percent }) => {
+  bufferLoader.loadBank('808-trap', ({ percent }) => {
     if (percent === 100) {
       console.log('[BeatGrid] All 16 soundbank buffers cached in RAM for zero-latency playback!');
     }

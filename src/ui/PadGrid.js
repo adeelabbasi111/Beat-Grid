@@ -7,6 +7,7 @@
 import { PAD_MAPPINGS } from '../config/soundBanks.js';
 import { audioEngine } from '../audio/AudioEngine.js';
 import { bufferLoader } from '../audio/BufferLoader.js';
+import { sequencerEngine } from '../audio/SequencerEngine.js';
 
 export class PadGrid {
   constructor(containerElement, { onPadTriggered = () => {}, onStatusMessage = () => {} } = {}) {
@@ -19,6 +20,16 @@ export class PadGrid {
 
     this.render();
     this.bindKeyboard();
+
+    // Track Selection Sync
+    this.updateSelectedTrack(sequencerEngine.activeTrackId);
+    sequencerEngine.onTrackChange((id) => this.updateSelectedTrack(id));
+  }
+
+  updateSelectedTrack(selectedTrackId) {
+    this.padElements.forEach((btn, padId) => {
+      btn.classList.toggle('track-selected', padId === selectedTrackId);
+    });
   }
 
   render() {
@@ -144,6 +155,12 @@ export class PadGrid {
 
     // Resume AudioContext on user interaction
     audioEngine.ensureRunning();
+
+    // Select this pad as active track in sequencer
+    sequencerEngine.setActiveTrack(padId);
+
+    // Live Overdub Recording: If recording is engaged, record this hit
+    sequencerEngine.recordHit(padId);
 
     const startTime = performance.now();
     const padBtn = this.padElements.get(padId);

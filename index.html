@@ -8,6 +8,7 @@
   <title>BeatGrid — Interactive Web Audio Sampler & Looper (FED-02)</title>
   <link rel="stylesheet" href="./src/styles/main.css" />
   <link rel="stylesheet" href="./src/styles/pads.css" />
+  <link rel="stylesheet" href="./src/styles/sequencer.css" />
 </head>
 <body>
   <!-- Accessible Live Region for Screen Readers -->
@@ -98,6 +99,9 @@
       <div id="pad-grid"></div>
     </main>
 
+    <!-- Module 2: 16-Step Looper & Sequencer Console -->
+    <section id="sequencer-container" aria-label="Step sequencer rack mount"></section>
+
     <!-- Keyboard & Touch Instructions Footer -->
     <footer class="instructions-bar">
       <div class="shortcut-tags">
@@ -105,6 +109,7 @@
         <span class="shortcut-tag"><b>Q-R</b> Mid-High</span>
         <span class="shortcut-tag"><b>A-F</b> Mid-Low</span>
         <span class="shortcut-tag"><b>Z-V</b> Bass/Perc</span>
+        <span class="shortcut-tag"><b>Space</b> Play/Pause</span>
       </div>
       <span class="tech-note">Tip: Drag & drop any .WAV / .MP3 sample directly onto a pad!</span>
     </footer>

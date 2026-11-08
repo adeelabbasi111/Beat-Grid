@@ -1,0 +1,292 @@
+/* 🎛️ BeatGrid 16-Step Looper & Sequencer Console */
+.sequencer-console {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 25px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  min-width: 0;
+}
+
+/* Sequencer Top Toolbar */
+.seq-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Transport Buttons */
+.transport-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-transport {
+  appearance: none;
+  border: 1px solid var(--border-subtle);
+  background: #090e18;
+  color: var(--text-main);
+  border-radius: 9px;
+  padding: 0.48rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.15s ease;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-transport:hover {
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+.btn-transport:active {
+  transform: translateY(1px);
+}
+
+.btn-transport.play {
+  background: #10b981;
+  color: #062419;
+  border-color: #10b981;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.4);
+}
+
+.btn-transport.play:hover {
+  background: #34d399;
+}
+
+.btn-transport.playing {
+  background: #f59e0b;
+  color: #2b1800;
+  border-color: #f59e0b;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.4);
+}
+
+.btn-transport.record {
+  color: #f43f5e;
+  border-color: rgba(244, 63, 94, 0.35);
+  background: rgba(244, 63, 94, 0.1);
+}
+
+.btn-transport.record.rec-active {
+  background: #f43f5e;
+  color: #ffffff;
+  border-color: #f43f5e;
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.7);
+  animation: rec-pulse 1.3s infinite ease-in-out;
+}
+
+@keyframes rec-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.88; transform: scale(1.04); }
+}
+
+.btn-transport.active-toggle {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.rec-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Secondary Controls (Swing & Preset) */
+.seq-params {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.seq-param-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Active Track Focus Header */
+.active-track-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #090e18;
+  border: 1px solid #1c2b3e;
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.78rem;
+}
+
+.track-name-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 700;
+  color: var(--track-color, #38bdf8);
+  font-family: var(--font-mono);
+}
+
+.track-color-indicator {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--track-color, #38bdf8);
+  box-shadow: 0 0 8px var(--track-color, #38bdf8);
+}
+
+.track-hint {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+}
+
+/* 16-Step Sequencer Rack */
+.step-rack-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.step-beat-labels {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  padding: 0 0.25rem;
+}
+
+.step-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: 0.35rem;
+  width: 100%;
+}
+
+/* Individual Step Button */
+.step-btn {
+  appearance: none;
+  font-family: var(--font-mono);
+  background: #090e18;
+  border: 1.5px solid #1a273b;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0.2rem;
+  color: var(--text-dim);
+  transition: all 0.08s ease;
+  position: relative;
+  touch-action: manipulation;
+}
+
+/* Quarter note downbeats (Beat 1, 2, 3, 4 start) */
+.step-btn.beat-downbeat {
+  border-top-color: #38bdf8;
+  border-top-width: 2.5px;
+}
+
+.step-btn:hover {
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+}
+
+/* Active Triggered Step (Note ON) */
+.step-btn.active {
+  background: var(--track-color, #38bdf8);
+  border-color: var(--track-color, #38bdf8);
+  color: #030712;
+  font-weight: 800;
+  box-shadow: 0 0 14px var(--track-color, rgba(56, 189, 248, 0.7)), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Visual Playhead Scanner Highlight */
+.step-btn.playhead {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.9);
+  transform: scale(1.05);
+  z-index: 2;
+}
+
+.step-number {
+  font-size: 0.6rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.step-indicator-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+}
+
+.step-btn.active .step-indicator-dot {
+  background: #030712;
+}
+
+/* Pad Track Selection Ring */
+.drum-pad.track-selected {
+  outline: 2.5px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* Responsive Sequencer Layout */
+@media (max-width: 768px) {
+  .sequencer-console {
+    padding: 1rem 0.85rem;
+    gap: 0.85rem;
+  }
+  .seq-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .transport-group {
+    justify-content: space-between;
+  }
+  .btn-transport {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 0.45rem 0.55rem;
+    font-size: 0.74rem;
+  }
+  .seq-params {
+    justify-content: space-between;
+  }
+  .step-buttons-grid {
+    gap: 0.2rem;
+  }
+  .step-btn {
+    height: 44px;
+    padding: 0.25rem 0.1rem;
+    border-radius: 6px;
+  }
+  .step-number {
+    font-size: 0.5rem;
+  }
+}
