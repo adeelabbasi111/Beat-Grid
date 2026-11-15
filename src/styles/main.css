@@ -179,6 +179,17 @@ body {
   animation: pulse-border 1.6s infinite ease-in-out;
 }
 
+.status-pill.keymap-pill {
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+.status-pill.keymap-pill:hover {
+  background: rgba(56, 189, 248, 0.22);
+  transform: translateY(-1px);
+}
+
 .status-dot {
   width: 8px;
   height: 8px;

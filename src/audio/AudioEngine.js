@@ -3,10 +3,13 @@
  * Manages the singleton AudioContext, Master Gain, and Real-Time Analyser.
  */
 
+import { fxEngine } from './FXEngine.js';
+
 class AudioEngine {
   constructor() {
     this.ctx = null;
     this.masterGain = null;
+    this.fxInput = null;
     this.analyser = null;
     this.isInitialized = false;
     this.onStateChangeCallbacks = new Set();
@@ -30,6 +33,11 @@ class AudioEngine {
     // Master Gain Node
     this.masterGain = this.ctx.createGain();
     this.masterGain.gain.setValueAtTime(0.85, this.ctx.currentTime);
+
+    // Initialize Master FX Insert Engine & Route to Master Gain
+    fxEngine.init(this.ctx);
+    this.fxInput = fxEngine.inputNode;
+    fxEngine.outputNode.connect(this.masterGain);
 
     // Studio Brickwall Limiter / Compressor to prevent polyphonic distortion
     this.compressor = this.ctx.createDynamicsCompressor();
@@ -105,7 +113,7 @@ class AudioEngine {
     voiceGain.gain.setValueAtTime(Math.max(0, Math.min(1, volume)), this.ctx.currentTime);
 
     source.connect(voiceGain);
-    voiceGain.connect(this.masterGain);
+    voiceGain.connect(this.fxInput || this.masterGain);
 
     source.start(0);
     return { source, gainNode: voiceGain };
@@ -135,7 +143,7 @@ class AudioEngine {
     voiceGain.gain.setValueAtTime(Math.max(0, Math.min(1, volume)), when);
 
     source.connect(voiceGain);
-    voiceGain.connect(this.masterGain);
+    voiceGain.connect(this.fxInput || this.masterGain);
 
     source.start(when);
     return { source, gainNode: voiceGain };

@@ -10,20 +10,46 @@ import { bufferLoader } from '../audio/BufferLoader.js';
 import { sequencerEngine } from '../audio/SequencerEngine.js';
 
 export class PadGrid {
-  constructor(containerElement, { onPadTriggered = () => {}, onStatusMessage = () => {} } = {}) {
+  constructor(containerElement, { initialKeyMap = null, onPadTriggered = () => {}, onStatusMessage = () => {} } = {}) {
     this.container = containerElement;
     this.onPadTriggered = onPadTriggered;
     this.onStatusMessage = onStatusMessage;
     this.padElements = new Map(); // padId -> HTMLButtonElement
     this.keyToPadMap = new Map(); // key.toLowerCase() -> padId, code.toLowerCase() -> padId
     this.activeVoices = new Map(); // padId -> { source, gainNode }
+    this.customKeyMap = initialKeyMap;
 
     this.render();
     this.bindKeyboard();
 
+    if (this.customKeyMap) {
+      this.setKeyMap(this.customKeyMap);
+    }
+
     // Track Selection Sync
     this.updateSelectedTrack(sequencerEngine.activeTrackId);
     sequencerEngine.onTrackChange((id) => this.updateSelectedTrack(id));
+  }
+
+  /**
+   * Dynamically reconfigures pad key bindings and updates visual labels.
+   */
+  setKeyMap(customKeyMap) {
+    if (!customKeyMap) return;
+    this.customKeyMap = { ...customKeyMap };
+    this.keyToPadMap.clear();
+
+    PAD_MAPPINGS.forEach((pad) => {
+      const assignedKey = (customKeyMap[pad.id] || pad.key).toString();
+      this.keyToPadMap.set(assignedKey.toLowerCase(), pad.id);
+
+      const padBtn = this.padElements.get(pad.id);
+      if (padBtn) {
+        const keyEl = padBtn.querySelector('.pad-key');
+        if (keyEl) keyEl.textContent = assignedKey;
+        padBtn.setAttribute('aria-label', `Pad ${pad.id + 1}: ${pad.label}. Shortcut key: ${assignedKey}`);
+      }
+    });
   }
 
   updateSelectedTrack(selectedTrackId) {

@@ -1,0 +1,230 @@
+/* ==========================================================================
+   Custom Keyboard Mapping Modal (Module 3)
+   ========================================================================== */
+
+.keymap-dialog {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #162030 0%, #0d131f 100%);
+  color: #f8fafc;
+  padding: 1.5rem;
+  max-width: 580px;
+  width: 90vw;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  z-index: 1000;
+}
+
+.keymap-dialog::backdrop {
+  background: rgba(5, 8, 15, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+.keymap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.keymap-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.keymap-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.keymap-badge {
+  font-size: 0.68rem;
+  font-family: var(--font-mono, monospace);
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.btn-close-keymap {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.25rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-close-keymap:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+
+.btn-close-keymap:focus-visible {
+  outline: 2px solid #38bdf8;
+}
+
+.keymap-help-text {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+/* 4x4 Grid in Modal */
+.keymap-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.keymap-pad-btn {
+  background: #111827;
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.6rem 0.45rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.keymap-pad-btn:hover {
+  background: #1e293b;
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.keymap-pad-btn:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+.keymap-pad-btn.is-listening {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+  animation: pulse-listening 1.2s infinite alternate;
+}
+
+@keyframes pulse-listening {
+  from { box-shadow: 0 0 8px rgba(56, 189, 248, 0.3); }
+  to { box-shadow: 0 0 20px rgba(56, 189, 248, 0.7); }
+}
+
+.keymap-pad-num {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+}
+
+.keymap-pad-key {
+  font-size: 1rem;
+  font-family: var(--font-mono, monospace);
+  font-weight: 800;
+  color: #38bdf8;
+  background: #0f172a;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 4px;
+  min-width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.keymap-pad-btn.is-listening .keymap-pad-key {
+  color: #f59e0b;
+  border-color: #f59e0b;
+  font-size: 0.75rem;
+  animation: pulse-listening-key 0.8s infinite alternate;
+}
+
+@keyframes pulse-listening-key {
+  from { opacity: 0.6; }
+  to { opacity: 1.0; }
+}
+
+.keymap-pad-label {
+  font-size: 0.65rem;
+  color: #cbd5e1;
+  margin-top: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Modal Actions Footer */
+.keymap-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-keymap-reset {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-keymap-reset:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #f8fafc;
+}
+
+.btn-keymap-done {
+  background: #0284c7;
+  border: none;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.45rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+}
+
+.btn-keymap-done:hover {
+  background: #0369a1;
+  transform: translateY(-1px);
+}
+
+.btn-keymap-done:focus-visible,
+.btn-keymap-reset:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}

@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="./src/styles/main.css" />
   <link rel="stylesheet" href="./src/styles/pads.css" />
   <link rel="stylesheet" href="./src/styles/sequencer.css" />
+  <link rel="stylesheet" href="./src/styles/fx.css" />
+  <link rel="stylesheet" href="./src/styles/keymapper.css" />
 </head>
 <body>
   <!-- Accessible Live Region for Screen Readers -->
@@ -33,6 +35,10 @@
       </div>
 
       <div class="header-actions">
+        <button id="btn-open-keymap" type="button" class="status-pill keymap-pill" title="Customize keyboard shortcuts for drum pads" aria-label="Open key mapping configuration">
+          <span aria-hidden="true">⌨️</span>
+          <span>Keymap</span>
+        </button>
         <button id="audio-status" type="button" class="status-pill suspended" title="Click to initialize / resume Web AudioContext" aria-label="Audio status: Standby. Click to activate.">
           <span class="status-dot" aria-hidden="true"></span>
           <span>Audio: Standby (Click)</span>
@@ -101,6 +107,9 @@
 
     <!-- Module 2: 16-Step Looper & Sequencer Console -->
     <section id="sequencer-container" aria-label="Step sequencer rack mount"></section>
+
+    <!-- Module 3: Master Effects Processor Rack -->
+    <section id="fx-rack-container" aria-label="Master Effects Rack"></section>
 
     <!-- Keyboard & Touch Instructions Footer -->
     <footer class="instructions-bar">

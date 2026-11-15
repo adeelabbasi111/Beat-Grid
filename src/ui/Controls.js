@@ -115,6 +115,29 @@ export class Controls {
     `;
   }
 
+  setTempo(bpm) {
+    const val = parseInt(bpm, 10);
+    if (isNaN(val)) return;
+    this.currentBpm = val;
+    if (this.tempoSlider) this.tempoSlider.value = val;
+    if (this.tempoVal) this.tempoVal.textContent = `${val} BPM`;
+    this.startMetronome();
+  }
+
+  setVolume(vol) {
+    const val = parseFloat(vol);
+    if (isNaN(val)) return;
+    audioEngine.setMasterVolume(val);
+    if (this.volumeSlider) this.volumeSlider.value = val;
+    if (this.volumeVal) this.volumeVal.textContent = `${Math.round(val * 100)}%`;
+  }
+
+  setBank(bankId) {
+    if (this.bankSelect) this.bankSelect.value = bankId;
+    const bankName = SOUND_BANKS[bankId]?.name || bankId;
+    if (this.bankStatVal) this.bankStatVal.textContent = bankName;
+  }
+
   updateTriggerStats({ label, key, latencyMs }) {
     if (this.lastHitVal) {
       this.lastHitVal.textContent = `${label} [${key}]`;

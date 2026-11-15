@@ -1,0 +1,356 @@
+/* ==========================================================================
+   Master FX Rack & Skeuomorphic Rotary Dials (Module 3)
+   ========================================================================== */
+
+.fx-rack-container {
+  margin-top: 1.25rem;
+  background: linear-gradient(180deg, #121824 0%, #0d121c 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Studio Rack Screw Accents */
+.fx-rack-container::before,
+.fx-rack-container::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #2d3748 40%, #1a202c 70%, #0f172a 100%);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+.fx-rack-container::before { left: 10px; }
+.fx-rack-container::after { right: 10px; }
+
+/* Header Bar */
+.fx-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.fx-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.fx-rack-icon {
+  width: 18px;
+  height: 18px;
+  color: #38bdf8;
+}
+
+.fx-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+.fx-rack-badge {
+  font-size: 0.65rem;
+  font-family: var(--font-mono, monospace);
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.fx-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Master FX Bypass & Session Buttons */
+.btn-fx-action {
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.15s ease;
+}
+
+.btn-fx-action:hover {
+  background: #334155;
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-fx-action:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+.btn-fx-action.active-bypass {
+  background: rgba(239, 68, 68, 0.18);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Grid of 4 Effects Units */
+.fx-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.fx-unit {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 0.85rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fx-unit.is-active {
+  border-color: rgba(56, 189, 248, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.fx-unit.is-bypassed {
+  opacity: 0.6;
+}
+
+/* FX Unit Header */
+.fx-unit-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.fx-unit-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Power / Bypass Push Button */
+.fx-power-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #1a2230;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.fx-power-btn:hover {
+  transform: scale(1.08);
+}
+
+.fx-power-btn:focus-visible {
+  outline: 2px solid #38bdf8;
+}
+
+.fx-power-led {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #475569;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fx-unit.is-active .fx-power-led {
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+.fx-power-btn.active-led .fx-power-led {
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+/* Dials Container within Unit */
+.fx-dials-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  width: 100%;
+  margin-top: 0.35rem;
+}
+
+/* ==========================================================================
+   Skeuomorphic Rotary Knob Component
+   ========================================================================== */
+
+.rotary-knob-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  touch-action: none;
+  user-select: none;
+  position: relative;
+  cursor: ns-resize;
+}
+
+.rotary-dial {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2a3447 0%, #151c28 75%, #0f141e 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 2px 3px rgba(255, 255, 255, 0.15);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rotary-knob-wrap:hover .rotary-dial {
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.2), inset 0 2px 3px rgba(255, 255, 255, 0.25);
+}
+
+.rotary-knob-wrap:focus-visible .rotary-dial {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+/* Dial Rotating Pointer Line */
+.rotary-pointer-rotor {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  /* Will be dynamically rotated by style.transform */
+  transform: rotate(-135deg);
+}
+
+.rotary-pointer-line {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 2px;
+  height: 10px;
+  transform: translateX(-50%);
+  background: #38bdf8;
+  border-radius: 2px;
+  box-shadow: 0 0 6px #38bdf8;
+}
+
+/* Rotary Center Cap */
+.rotary-cap {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #1a2230 40%, #0d121c 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* Knob Labels & Value Readouts */
+.knob-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  margin-top: 0.4rem;
+  text-align: center;
+}
+
+.knob-val {
+  font-size: 0.68rem;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(15, 23, 42, 0.8);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 0.2rem;
+  min-width: 42px;
+  text-align: center;
+}
+
+/* Filter Mode Selector inside unit */
+.fx-filter-type-switch {
+  display: flex;
+  background: #0f172a;
+  border-radius: 4px;
+  padding: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 0.4rem;
+}
+
+.btn-filter-type {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-filter-type.active-type {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
+  .fx-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .fx-grid {
+    grid-template-columns: 1fr;
+  }
+  .fx-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

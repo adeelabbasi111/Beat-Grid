@@ -232,6 +232,13 @@ export class SequencerUI {
     });
   }
 
+  setSwing(val) {
+    const clamped = Math.max(0, Math.min(50, parseInt(val, 10) || 0));
+    if (this.swingSlider) this.swingSlider.value = clamped;
+    if (this.swingVal) this.swingVal.textContent = `${clamped}%`;
+    sequencerEngine.setSwing(clamped);
+  }
+
   updateTransportState(isPlaying, isRecording) {
     if (isPlaying) {
       this.playBtn.classList.replace('play', 'playing');

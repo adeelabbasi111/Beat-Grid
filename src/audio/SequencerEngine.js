@@ -160,6 +160,23 @@ class SequencerEngine {
   }
 
   /**
+   * Retrieves clone of the current 16x16 pattern matrix.
+   */
+  getPattern() {
+    return JSON.parse(JSON.stringify(this.grid));
+  }
+
+  /**
+   * Restores a 16x16 pattern matrix.
+   */
+  setPattern(newGrid) {
+    if (Array.isArray(newGrid) && newGrid.length === 16) {
+      this.grid = JSON.parse(JSON.stringify(newGrid));
+      this.notifyPatternChange();
+    }
+  }
+
+  /**
    * Quantized Live Recording: Snaps a real-time pad strike into the sequence.
    * Features swing-aware quantization thresholding so recorded hits align with swung audio.
    */
