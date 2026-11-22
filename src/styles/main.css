@@ -146,6 +146,8 @@ body {
 .header-actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 /* Status Pill Button */
@@ -187,6 +189,17 @@ body {
 
 .status-pill.keymap-pill:hover {
   background: rgba(56, 189, 248, 0.22);
+  transform: translateY(-1px);
+}
+
+.status-pill.help-pill {
+  background: rgba(168, 85, 247, 0.12);
+  color: #c084fc;
+  border-color: rgba(168, 85, 247, 0.35);
+}
+
+.status-pill.help-pill:hover {
+  background: rgba(168, 85, 247, 0.22);
   transform: translateY(-1px);
 }
 
@@ -468,10 +481,18 @@ body {
   }
   .header-actions {
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-  .status-pill {
-    width: 100%;
+  .status-pill,
+  .btn-master-rec,
+  .btn-bounce-loop {
+    flex: 1 1 calc(50% - 0.5rem);
     justify-content: center;
+  }
+  #audio-status {
+    flex: 1 1 100%;
   }
   .dashboard-display {
     grid-template-columns: 1fr;

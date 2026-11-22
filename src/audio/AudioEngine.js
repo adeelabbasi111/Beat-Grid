@@ -76,6 +76,12 @@ class AudioEngine {
     if (this.ctx && this.ctx.state === 'suspended') {
       try {
         await this.ctx.resume();
+        // Safari / iOS WebKit audio subsystem unlock (silently primes hardware speaker)
+        const silentBuf = this.ctx.createBuffer(1, 1, 22050);
+        const src = this.ctx.createBufferSource();
+        src.buffer = silentBuf;
+        src.connect(this.ctx.destination);
+        src.start(0);
         this.notifyStateChange(this.ctx.state);
       } catch (e) {
         // Expected when called on initial page load before a user gesture.

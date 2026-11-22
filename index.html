@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="./src/styles/sequencer.css" />
   <link rel="stylesheet" href="./src/styles/fx.css" />
   <link rel="stylesheet" href="./src/styles/keymapper.css" />
+  <link rel="stylesheet" href="./src/styles/export.css" />
+  <link rel="stylesheet" href="./src/styles/help.css" />
 </head>
 <body>
   <!-- Accessible Live Region for Screen Readers -->
@@ -35,9 +37,21 @@
       </div>
 
       <div class="header-actions">
+        <button id="btn-master-rec" type="button" class="btn-master-rec" title="Record live master performance to WAV" aria-label="Record master output to WAV audio">
+          <span class="master-rec-dot" aria-hidden="true"></span>
+          <span id="master-rec-label">REC MASTER</span>
+        </button>
+        <button id="btn-open-bounce" type="button" class="btn-bounce-loop" title="Bounce current loop to WAV file" aria-label="Export loop audio as WAV">
+          <span aria-hidden="true">💾</span>
+          <span>Bounce</span>
+        </button>
         <button id="btn-open-keymap" type="button" class="status-pill keymap-pill" title="Customize keyboard shortcuts for drum pads" aria-label="Open key mapping configuration">
           <span aria-hidden="true">⌨️</span>
           <span>Keymap</span>
+        </button>
+        <button id="btn-open-help" type="button" class="status-pill help-pill" title="View keyboard shortcuts and user guide" aria-label="Open help and user guide">
+          <span aria-hidden="true">❓</span>
+          <span>Guide</span>
         </button>
         <button id="audio-status" type="button" class="status-pill suspended" title="Click to initialize / resume Web AudioContext" aria-label="Audio status: Standby. Click to activate.">
           <span class="status-dot" aria-hidden="true"></span>
