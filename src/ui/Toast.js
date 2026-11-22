@@ -1,5 +1,5 @@
 /**
- * Toast - Non-intrusive floating status notifications (Module 4)
+ * Toast - Non-intrusive floating status notifications
  */
 
 export class Toast {

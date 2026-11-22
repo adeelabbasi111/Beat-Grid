@@ -9,6 +9,28 @@ import { audioEngine } from '../audio/AudioEngine.js';
 import { bufferLoader } from '../audio/BufferLoader.js';
 import { sequencerEngine } from '../audio/SequencerEngine.js';
 
+function getWaveformPath(id) {
+  const waveforms = [
+    "M 0 14 Q 8 1, 16 27 T 32 14 T 50 14 L 100 14",
+    "M 0 14 L 8 4 L 16 24 L 24 6 L 32 20 L 40 8 L 48 17 L 60 14 L 100 14",
+    "M 0 14 L 6 9 L 12 19 L 18 10 L 24 17 L 30 14 L 100 14",
+    "M 0 14 L 5 8 L 10 20 L 15 9 L 20 18 L 26 10 L 32 17 L 40 12 L 50 15 L 65 14 L 100 14",
+    "M 0 14 L 6 6 L 10 22 L 14 5 L 18 23 L 24 7 L 30 20 L 38 10 L 48 16 L 60 14 L 100 14",
+    "M 0 14 L 10 3 L 15 25 L 20 11 L 25 16 L 32 14 L 100 14",
+    "M 0 14 Q 10 2, 20 26 T 40 14 T 60 14 L 100 14",
+    "M 0 14 Q 12 1, 24 27 T 48 14 T 72 14 L 100 14",
+    "M 0 14 Q 15 0, 30 28 T 60 14 T 85 14 L 100 14",
+    "M 0 14 L 8 5 L 16 23 L 24 8 L 32 19 L 42 14 L 100 14",
+    "M 0 14 Q 10 3, 20 25 Q 35 7, 50 20 T 75 14 L 100 14",
+    "M 0 14 Q 16 2, 32 26 T 64 14 T 96 14 L 100 14",
+    "M 0 14 Q 14 1, 28 27 T 56 14 T 84 14 L 100 14",
+    "M 0 14 L 8 7 L 16 21 L 24 9 L 32 18 L 42 12 L 55 14 L 100 14",
+    "M 0 14 L 10 2 L 18 26 L 26 5 L 34 22 L 44 8 L 56 18 L 70 14 L 100 14",
+    "M 0 14 L 4 10 L 8 18 L 12 9 L 16 19 L 20 10 L 25 17 L 30 11 L 36 16 L 44 13 L 55 15 L 100 14"
+  ];
+  return waveforms[id % waveforms.length];
+}
+
 export class PadGrid {
   constructor(containerElement, { initialKeyMap = null, onPadTriggered = () => {}, onStatusMessage = () => {} } = {}) {
     this.container = containerElement;
@@ -74,12 +96,19 @@ export class PadGrid {
       padBtn.style.setProperty('--pad-color', pad.color);
 
       padBtn.innerHTML = `
-        <span class="pad-led" aria-hidden="true"></span>
-        <span class="pad-key" aria-hidden="true">${pad.key}</span>
-        <span class="pad-info" aria-hidden="true">
+        <div class="pad-header-row" aria-hidden="true">
+          <span class="pad-key">${pad.key}</span>
+          <span class="pad-led"></span>
+        </div>
+        <div class="pad-wave" aria-hidden="true">
+          <svg viewBox="0 0 100 28" preserveAspectRatio="none">
+            <path d="${getWaveformPath(pad.id)}" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pad-info" aria-hidden="true">
           <span class="pad-number">PAD ${(pad.id + 1).toString().padStart(2, '0')}</span>
           <span class="pad-label">${pad.label}</span>
-        </span>
+        </div>
       `;
 
       // Touch & Pointer interaction

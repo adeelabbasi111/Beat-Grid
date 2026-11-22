@@ -1,146 +1,91 @@
-/* ==========================================================================
-   Help & Keyboard Shortcuts Modal (Module 4)
-   ========================================================================== */
+/* ═══════════════════════════════════════════════════════════════
+   BeatGrid DAW — Help & Guide Modal  (Complete Rewrite)
+   ═══════════════════════════════════════════════════════════════ */
 
 .help-dialog {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  background: linear-gradient(180deg, #162030 0%, #0d131f 100%);
-  color: #f8fafc;
-  padding: 1.5rem;
-  max-width: 620px;
-  width: 92vw;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  background: var(--bg-panel);
+  color: var(--text-1);
+  padding: 1.25rem;
+  max-width: 560px;
+  width: 90vw;
   max-height: 85vh;
   overflow-y: auto;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.85);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.85);
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   margin: 0;
   z-index: 1050;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }
-
 .help-dialog::backdrop {
-  background: rgba(4, 7, 13, 0.85);
+  background: rgba(0,0,0,0.75);
   backdrop-filter: blur(8px);
 }
 
 .help-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.85rem; padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
 }
-
-.help-title-group {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.help-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #f1f5f9;
-  margin: 0;
-}
-
+.help-title-group { display: flex; align-items: center; gap: 0.5rem; }
+.help-title { font-size: 0.95rem; font-weight: 700; margin: 0; }
 .help-badge {
-  font-size: 0.68rem;
-  font-family: var(--font-mono, monospace);
-  background: rgba(56, 189, 248, 0.15);
-  color: #38bdf8;
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  font-size: 0.6rem; font-family: var(--font-mono); font-weight: 600;
+  color: var(--brand-light); background: var(--brand-dim);
+  padding: 0.1rem 0.4rem; border-radius: 3px;
 }
 
 .btn-close-help {
-  background: transparent;
-  border: none;
-  color: #94a3b8;
-  font-size: 1.25rem;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  transition: all 0.15s ease;
+  background: transparent; border: none; color: var(--text-3);
+  font-size: 1.1rem; cursor: pointer; width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-sm); transition: all 0.15s;
 }
+.btn-close-help:hover { background: var(--bg-hover); color: var(--text-1); }
 
-.btn-close-help:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #f8fafc;
-}
-
-.help-section {
-  margin-bottom: 1.25rem;
-}
+.help-content { display: flex; flex-direction: column; gap: 0.95rem; }
 
 .help-section-title {
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #38bdf8;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  font-size: 0.74rem; font-weight: 700; color: var(--brand-light);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  margin-bottom: 0.45rem; display: flex; align-items: center; gap: 0.35rem;
 }
 
-.help-shortcuts-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
+/* Key Matrix Grid */
+.key-matrix-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem;
+  background: var(--bg-inset); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.6rem;
 }
 
-.shortcut-item {
-  background: #0f172a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  padding: 0.5rem 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.key-matrix-row {
+  display: flex; align-items: center; gap: 0.45rem;
+  font-size: 0.7rem; color: var(--text-2);
 }
 
-.shortcut-kbd {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.75rem;
-  font-weight: 800;
-  background: #1e293b;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-  padding: 2px 6px;
-  color: #38bdf8;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+.key-badge {
+  font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700;
+  color: var(--brand-light); background: var(--bg-panel);
+  border: 1px solid var(--border-light); padding: 0.12rem 0.4rem;
+  border-radius: 4px; min-width: 44px; text-align: center;
 }
 
-.shortcut-desc {
-  font-size: 0.75rem;
-  color: #94a3b8;
+.help-bullets {
+  list-style: none; display: flex; flex-direction: column; gap: 0.35rem;
 }
-
-.help-list {
-  margin: 0;
-  padding-left: 1.2rem;
-  font-size: 0.78rem;
-  color: #cbd5e1;
-  line-height: 1.5;
+.help-bullets li {
+  font-size: 0.72rem; color: var(--text-2); line-height: 1.45;
+  position: relative; padding-left: 0.9rem;
 }
-
-.help-list li {
-  margin-bottom: 0.35rem;
+.help-bullets li::before {
+  content: '•'; position: absolute; left: 0; color: var(--brand-light); font-weight: bold;
 }
+.help-bullets strong { color: var(--text-1); }
 
-@media (max-width: 600px) {
-  .help-shortcuts-grid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 540px) {
+  .key-matrix-grid { grid-template-columns: 1fr; }
 }

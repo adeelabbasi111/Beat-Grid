@@ -1,5 +1,5 @@
 /**
- * AudioRecorder - Studio WAV Export & Real-Time Master Recording Engine (Module 4)
+ * AudioRecorder - Studio WAV Export & Real-Time Master Recording Engine
  * Provides:
  * 1. Live Master Performance Recording (Stereo 16-bit PCM WAV)
  * 2. Offline Loop Bounce (OfflineAudioContext multi-bar rendering with natural FX tail)

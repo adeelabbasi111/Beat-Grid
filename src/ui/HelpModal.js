@@ -1,5 +1,5 @@
 /**
- * HelpModal - Interactive Keyboard Shortcuts & User Guide Dialog (Module 4)
+ * HelpModal - Interactive Keyboard Shortcuts & User Guide Dialog
  */
 
 export class HelpModal {

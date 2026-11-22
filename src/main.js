@@ -1,5 +1,5 @@
 /**
- * BeatGrid - Master Application Entry Point (Modules 1, 2, 3 & 4 Complete)
+ * BeatGrid - Master Application Entry Point
  * Production-ready Web Audio Sampler, Sequencer, FX Processor & Audio Export Workstation.
  */
 
@@ -95,13 +95,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     keyMapperModal.open();
   });
 
-  // 4. Module 4: Help & User Guide Modal
+  // 4. Help & User Guide Modal
   const helpModal = new HelpModal();
   btnOpenHelp?.addEventListener('click', () => {
     helpModal.open();
   });
 
-  // 5. Module 2: 16-Step Looper & Sequencer Console
+  // 5. 16-Step Looper & Sequencer Console
   const sequencerUI = new SequencerUI(sequencerContainer, {
     onStatusMessage: (message) => {
       controls.announceStatus(message);
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     sequencerEngine.setPattern(savedSession.pattern);
   }
 
-  // 6. Module 3: Master FX Rack UI
+  // 6. Master FX Rack UI
   const fxRackUI = new FXRackUI(fxRackContainer, {
     onStatusMessage: (message) => {
       controls.announceStatus(message);
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     fxEngine.loadState(savedSession.fx);
   }
 
-  // 7. Module 4: Audio Recorder & Export Modal
+  // 7. Audio Recorder & Export Modal
   const audioRecorder = new AudioRecorder(audioEngine);
 
   const exportModal = new ExportModal({

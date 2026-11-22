@@ -1,5 +1,5 @@
 /**
- * ExportModal - Audio Export Dialog & Real-Time Master Recording Controller (Module 4)
+ * ExportModal - Audio Export Dialog & Real-Time Master Recording Controller
  * Manages:
  * 1. Loop Bounce Modal (OfflineAudioContext multi-bar rendering)
  * 2. Live Master Audio Recording button in header

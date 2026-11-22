@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="BeatGrid — High-performance 16-pad web audio sampler and drum machine built with native Web Audio API." />
-  <meta name="theme-color" content="#0a0d14" />
+  <meta name="description" content="BeatGrid — High-performance 16-pad web audio sampler, step sequencer & FX workstation built with native Web Audio API." />
+  <meta name="theme-color" content="#0c0c0f" />
   <title>BeatGrid — Interactive Web Audio Sampler & Looper (FED-02)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./src/styles/main.css" />
   <link rel="stylesheet" href="./src/styles/pads.css" />
   <link rel="stylesheet" href="./src/styles/sequencer.css" />
@@ -18,125 +21,178 @@
   <!-- Accessible Live Region for Screen Readers -->
   <div id="a11y-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-  <div class="app-container">
-    <!-- Header -->
-    <header class="app-header">
+  <!-- ═══════════════════════════════════════════════════════════
+       DAW TOP BAR — Brand, Transport Quick Actions, Status
+       ═══════════════════════════════════════════════════════════ -->
+  <header class="daw-topbar">
+    <div class="topbar-inner">
+      <!-- Brand -->
       <div class="brand">
-        <div class="brand-icon" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="4" width="6" height="6" rx="1.5"></rect>
-            <rect x="14" y="4" width="6" height="6" rx="1.5"></rect>
-            <rect x="4" y="14" width="6" height="6" rx="1.5"></rect>
-            <rect x="14" y="14" width="6" height="6" rx="1.5"></rect>
+        <div class="brand-logo" aria-hidden="true">
+          <!-- Inline SVG waveform icon -->
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="url(#brandGrad)"/>
+            <path d="M8 20V12M12 22V10M16 24V8M20 22V10M24 20V12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+            <defs><linearGradient id="brandGrad" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6C5CE7"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
           </svg>
         </div>
-        <div>
-          <h1 class="brand-title">BeatGrid</h1>
-          <span class="brand-badge">FED-02 • Web Audio API</span>
+        <div class="brand-text">
+          <h1 class="brand-name">BeatGrid</h1>
+          <span class="brand-tag">Web Audio DAW</span>
         </div>
       </div>
 
-      <div class="header-actions">
-        <button id="btn-master-rec" type="button" class="btn-master-rec" title="Record live master performance to WAV" aria-label="Record master output to WAV audio">
-          <span class="master-rec-dot" aria-hidden="true"></span>
-          <span id="master-rec-label">REC MASTER</span>
+      <!-- Center: Quick Transport Cluster -->
+      <div class="topbar-center">
+        <button id="audio-status" type="button" class="status-chip suspended" title="Click to activate audio engine" aria-label="Audio status: Standby. Click to activate.">
+          <span class="status-led" aria-hidden="true"></span>
+          <span class="status-text">Standby</span>
         </button>
-        <button id="btn-open-bounce" type="button" class="btn-bounce-loop" title="Bounce current loop to WAV file" aria-label="Export loop audio as WAV">
-          <span aria-hidden="true">💾</span>
+      </div>
+
+      <!-- Right: Studio Actions -->
+      <nav class="topbar-actions" aria-label="Studio actions">
+        <button id="btn-master-rec" type="button" class="action-btn rec-btn" title="Record live master performance" aria-label="Record master output">
+          <span class="rec-led" aria-hidden="true"></span>
+          <span id="master-rec-label">REC</span>
+        </button>
+        <button id="btn-open-bounce" type="button" class="action-btn" title="Bounce loop to WAV" aria-label="Export loop audio">
+          <svg class="action-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3v10m0 0l-3-3m3 3l3-3M4 15h12"/></svg>
           <span>Bounce</span>
         </button>
-        <button id="btn-open-keymap" type="button" class="status-pill keymap-pill" title="Customize keyboard shortcuts for drum pads" aria-label="Open key mapping configuration">
-          <span aria-hidden="true">⌨️</span>
-          <span>Keymap</span>
+        <button id="btn-open-keymap" type="button" class="action-btn" title="Customize key bindings" aria-label="Open key mapping">
+          <svg class="action-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="16" height="9" rx="2"/><path d="M5 10h1m3 0h1m3 0h1M6 13h8"/></svg>
+          <span>Keys</span>
         </button>
-        <button id="btn-open-help" type="button" class="status-pill help-pill" title="View keyboard shortcuts and user guide" aria-label="Open help and user guide">
-          <span aria-hidden="true">❓</span>
-          <span>Guide</span>
+        <button id="btn-open-help" type="button" class="action-btn" title="Help & shortcuts" aria-label="Open guide">
+          <svg class="action-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7.5"/><path d="M8 8a2 2 0 1 1 2 2v1.5m0 2v.5"/></svg>
+          <span>Help</span>
         </button>
-        <button id="audio-status" type="button" class="status-pill suspended" title="Click to initialize / resume Web AudioContext" aria-label="Audio status: Standby. Click to activate.">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>Audio: Standby (Click)</span>
-        </button>
-      </div>
-    </header>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Hardware Dashboard & VU Meter -->
-    <section class="dashboard-display" aria-label="Audio telemetry and status dashboard">
-      <div class="stat-item">
-        <span class="stat-label">Active Sound Bank</span>
-        <span id="stat-bank" class="stat-value">808 Trap Kit</span>
+  <!-- ═══════════════════════════════════════════════════════════
+       DAW MAIN WORKSPACE
+       ═══════════════════════════════════════════════════════════ -->
+  <main class="daw-workspace">
+
+    <!-- ─── LEFT SIDEBAR: Kit, Transport Params ─── -->
+    <aside class="sidebar" aria-label="Mixer controls">
+      <!-- Decorative Waveform Visual -->
+      <div class="sidebar-visual" aria-hidden="true">
+        <svg class="wave-art" viewBox="0 0 200 60" preserveAspectRatio="none">
+          <path d="M0 30 Q25 10, 50 30 T100 30 T150 30 T200 30" stroke="url(#waveGrad)" fill="none" stroke-width="1.5" opacity="0.4"/>
+          <path d="M0 30 Q25 50, 50 30 T100 30 T150 30 T200 30" stroke="url(#waveGrad)" fill="none" stroke-width="1" opacity="0.25"/>
+          <defs><linearGradient id="waveGrad" x1="0" x2="200"><stop stop-color="#6C5CE7"/><stop offset="1" stop-color="#a855f7" stop-opacity="0.3"/></linearGradient></defs>
+        </svg>
       </div>
 
-      <div class="stat-item">
-        <span class="stat-label">Last Hit & Latency</span>
-        <div class="stat-latency-group">
-          <span id="stat-last-hit" class="stat-value">Ready [Press Key]</span>
-          <span id="stat-latency" class="stat-pill-badge">0.00 ms</span>
+      <!-- Kit Selector -->
+      <div class="sidebar-section">
+        <label for="bank-select" class="sidebar-label">Sound Kit</label>
+        <select id="bank-select" class="kit-select" aria-label="Select drum kit"></select>
+      </div>
+
+      <!-- BPM -->
+      <div class="sidebar-section">
+        <div class="slider-header">
+          <label for="tempo-slider" class="sidebar-label">Tempo</label>
+          <output id="tempo-val" class="slider-readout">120 BPM</output>
+        </div>
+        <input id="tempo-slider" type="range" min="60" max="180" step="1" value="120" class="daw-slider" aria-label="Tempo" />
+        <span id="tempo-indicator" class="tempo-pulse" aria-hidden="true"></span>
+      </div>
+
+      <!-- Volume -->
+      <div class="sidebar-section">
+        <div class="slider-header">
+          <label for="volume-slider" class="sidebar-label">Volume</label>
+          <output id="volume-val" class="slider-readout">85%</output>
+        </div>
+        <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.85" class="daw-slider" aria-label="Master volume" />
+      </div>
+
+      <!-- Live Telemetry -->
+      <div class="sidebar-section telemetry-section">
+        <div class="telemetry-row">
+          <span class="telemetry-label">Last Hit</span>
+          <span id="stat-last-hit" class="telemetry-value">—</span>
+        </div>
+        <div class="telemetry-row">
+          <span class="telemetry-label">Latency</span>
+          <span id="stat-latency" class="telemetry-value accent">0.00 ms</span>
+        </div>
+        <span id="stat-bank" class="sr-only">808 Trap Kit</span>
+      </div>
+
+      <!-- VU Meter -->
+      <div class="sidebar-section vu-section">
+        <span class="sidebar-label">Output</span>
+        <div class="vu-meter" role="meter" aria-label="Master VU" aria-valuemin="0" aria-valuemax="100">
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
         </div>
       </div>
+    </aside>
 
-      <div class="stat-item">
-        <div class="meter-header">
-          <span class="stat-label">Master VU Output</span>
-          <span class="meter-db">0 dB</span>
+    <!-- ─── CENTER STAGE ─── -->
+    <div class="center-stage">
+
+      <!-- PAD GRID in a collapsible <details> panel -->
+      <details class="daw-panel pad-panel" open>
+        <summary class="panel-header">
+          <svg class="panel-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
+          <span class="panel-title">Drum Pads Matrix</span>
+          <span class="panel-badge">16 PADS • COLLAPSIBLE</span>
+        </summary>
+        <div class="panel-body pad-surface" aria-label="BeatGrid drum machine workspace">
+          <div id="pad-grid"></div>
         </div>
-        <div class="vu-meter" role="meter" aria-label="Master audio output level" aria-valuemin="0" aria-valuemax="100">
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
-          <div class="vu-bar"></div>
+      </details>
+
+      <!-- SEQUENCER MODULE -->
+      <details class="daw-panel sequencer-panel" open>
+        <summary class="panel-header">
+          <svg class="panel-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h16M2 8h16M2 12h16M2 16h16"/><circle cx="6" cy="4" r="1.5" fill="currentColor"/><circle cx="14" cy="8" r="1.5" fill="currentColor"/><circle cx="10" cy="12" r="1.5" fill="currentColor"/><circle cx="6" cy="16" r="1.5" fill="currentColor"/></svg>
+          <span class="panel-title">16-Step Pattern Sequencer</span>
+          <span class="panel-badge">16 STEPS</span>
+        </summary>
+        <div class="panel-body">
+          <section id="sequencer-container" aria-label="Step sequencer"></section>
         </div>
-      </div>
-    </section>
+      </details>
 
-    <!-- Hardware Controls Bar (Kit Select, BPM Slider, Master Volume) -->
-    <section class="controls-bar" aria-label="Audio controls">
-      <div class="control-group">
-        <label for="bank-select" class="control-label">Kit Preset:</label>
-        <select id="bank-select" class="select-input" aria-label="Select drum sound bank"></select>
-      </div>
-
-      <div class="control-group">
-        <div class="tempo-label-wrap">
-          <span id="tempo-indicator" class="tempo-dot" aria-hidden="true"></span>
-          <label for="tempo-slider" class="control-label">Tempo:</label>
+      <!-- FX RACK MODULE -->
+      <details class="daw-panel fx-panel" open>
+        <summary class="panel-header">
+          <svg class="panel-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5" cy="6" r="2"/><circle cx="15" cy="10" r="2"/><circle cx="8" cy="15" r="2"/><path d="M5 8v8M15 4v4m0 4v4M8 4v9"/></svg>
+          <span class="panel-title">Master Outboard FX Rack</span>
+          <span class="panel-badge">DSP INSERTS</span>
+        </summary>
+        <div class="panel-body">
+          <section id="fx-rack-container" aria-label="Master Effects Rack"></section>
         </div>
-        <input id="tempo-slider" type="range" min="60" max="180" step="1" value="120" class="slider-input" aria-label="Tempo slider in beats per minute" />
-        <span id="tempo-val" class="control-val">120 BPM</span>
-      </div>
+      </details>
 
-      <div class="control-group">
-        <label for="volume-slider" class="control-label">Master Vol:</label>
-        <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.85" class="slider-input" aria-label="Master volume slider" />
-        <span id="volume-val" class="control-val">85%</span>
-      </div>
-    </section>
+    </div>
+  </main>
 
-    <!-- 16-Pad Drum Machine Surface -->
-    <main class="pad-surface" aria-label="BeatGrid drum machine workspace">
-      <div id="pad-grid"></div>
-    </main>
-
-    <!-- Module 2: 16-Step Looper & Sequencer Console -->
-    <section id="sequencer-container" aria-label="Step sequencer rack mount"></section>
-
-    <!-- Module 3: Master Effects Processor Rack -->
-    <section id="fx-rack-container" aria-label="Master Effects Rack"></section>
-
-    <!-- Keyboard & Touch Instructions Footer -->
-    <footer class="instructions-bar">
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER BAR — Shortcuts hint
+       ═══════════════════════════════════════════════════════════ -->
+  <footer class="daw-footer">
+    <div class="footer-inner">
       <div class="shortcut-tags">
-        <span class="shortcut-tag"><b>1-4</b> Top</span>
-        <span class="shortcut-tag"><b>Q-R</b> Mid-High</span>
-        <span class="shortcut-tag"><b>A-F</b> Mid-Low</span>
-        <span class="shortcut-tag"><b>Z-V</b> Bass/Perc</span>
-        <span class="shortcut-tag"><b>Space</b> Play/Pause</span>
+        <kbd>1-4</kbd> Row 1
+        <kbd>Q-R</kbd> Row 2
+        <kbd>A-F</kbd> Row 3
+        <kbd>Z-V</kbd> Row 4
+        <kbd>Space</kbd> Play
       </div>
-      <span class="tech-note">Tip: Drag & drop any .WAV / .MP3 sample directly onto a pad!</span>
-    </footer>
-  </div>
+      <span class="footer-tip">Drop .wav/.mp3 on any pad to load custom sounds</span>
+    </div>
+  </footer>
 
   <script type="module" src="./src/main.js"></script>
 </body>

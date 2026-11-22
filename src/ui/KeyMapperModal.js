@@ -1,5 +1,5 @@
 /**
- * KeyMapperModal - Accessible Custom Keyboard Mapping Dialog (Module 3)
+ * KeyMapperModal - Accessible Custom Keyboard Mapping Dialog
  * Provides visual 4x4 pad remapping with interactive "Learn Key" listening mode,
  * conflict swapping, factory resets, and live PadGrid keyboard synchronization.
  */

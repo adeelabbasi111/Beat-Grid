@@ -107,11 +107,11 @@ export class Controls {
   updateStatus(state) {
     if (!this.statusPill) return;
     const isRunning = state === 'running';
-    this.statusPill.className = `status-pill ${isRunning ? 'running' : 'suspended'}`;
+    this.statusPill.className = `status-chip ${isRunning ? 'running' : 'suspended'}`;
     this.statusPill.setAttribute('aria-label', isRunning ? 'Audio engine live' : 'Audio engine standby. Click to activate.');
     this.statusPill.innerHTML = `
-      <span class="status-dot" aria-hidden="true"></span>
-      <span>${isRunning ? 'Audio: Live' : 'Audio: Standby (Click)'}</span>
+      <span class="status-led" aria-hidden="true"></span>
+      <span class="status-text">${isRunning ? 'Audio Live' : 'Standby (Click)'}</span>
     `;
   }
 
